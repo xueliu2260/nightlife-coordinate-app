@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        
+        <title>What's going on tonight</title>
+        <meta name="description" content="What's going on tonight">
+        <meta name="author" content="Baozi">
+        <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        
+        <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    
+    <body>
+        <div class="container">
+            <h1 style="font-size:3em">Plans tonight?</h1>
+            <div>
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <i class="fa fa-car" aria-hidden="true"></i>
+                <i class="fa fa-cutlery" aria-hidden="true"></i>
+            </div>
+            <p style="font-size:1em">See which bars are hoppin' tonight and RSVP ahead of time!<br>Remember: take a cab and drink responsibly.</p>
+        </div>
+    </body>
+</html>
