@@ -10,7 +10,9 @@
         <link rel="shortcut icon" href="http://sstatic.net/stackoverflow/img/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        
+        <link rel="stylesheet prefetch" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+
         <!--[if lt IE 9]>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
         <![endif]-->
@@ -18,13 +20,31 @@
     
     <body>
         <div class="container">
-            <h1 style="font-size:3em">Plans tonight?</h1>
+            <h1>Plans tonight?</h1>
             <div>
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                 <i class="fa fa-car" aria-hidden="true"></i>
                 <i class="fa fa-cutlery" aria-hidden="true"></i>
             </div>
-            <p style="font-size:1em">See which bars are hoppin' tonight and RSVP ahead of time!<br>Remember: take a cab and drink responsibly.</p>
+            <p>See which bars are hoppin' tonight and RSVP ahead of time!<br>Remember: take a cab and drink responsibly.</p>
         </div>
+        <div id="progress"></div>
+        <div class="center">
+            <div id="register">
+        
+                <i id="progressButton" class="ion-android-arrow-forward next"></i>
+                <form action="/location" method="POST">
+                    <div id="inputContainer">
+                      <input name='userLocation' id="inputField" required autofocus />
+                      <label id="inputLabel"></label>
+                      <div id="inputProgress"></div>
+                    </div>
+                </form>
+                
+        
+            </div>
+        </div>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='search-button.js') }}"></script>
     </body>
 </html>
