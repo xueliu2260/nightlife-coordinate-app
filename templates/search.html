@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>search results</title>
+</head>
+<body>
+    <div class="title grayBackground">
+        <h1 class="resultTitle">The best 10 results near <span class="bold darkBlue">{{ location }}</span></h1>
+        <a href="index" class="previous round btn">&#8249;</a>
+        <a href="index">back to search</a>
+    </div>
+
+    <hr>
+    <div class="resultContainer">
+        <ul>
+            {% set count = [0] %}
+            {% for result in searchResults%}
+                {% if result.name %}
+                    {% if count.append(count.pop() + 1) %}
+                    {% endif %}
+                    <li class="oneDisplay">
+
+                        <div class="image">
+                            {% if result.image_url %}
+                                <a href="{{result.url}}">
+                                    <!--<img class="small" src="{{result.image_url}}">-->
+                                    <div class="small" style="background-image:url('{{result.image_url}}');"></div>
+                                </a>
+                            {% endif %}
+
+
+                        </div>
+                        <div class="info">
+                            <p class="darkBlue">{{count[0]}}.<a class="darkBlue" href="{{result.url}}">{{result.name}}</a></p>
+                            {% if result.rating %}
+                                <div class="ratings">
+                                    <div class="empty-stars"></div>
+                                    <div class="full-stars" style="width:{{result.rating * 100 / 5}}%"></div>
+                                </div>
+                            {% endif %}
+                            {% if result.rating %}
+                                <p class="review">{{result.review_count}} reviews</p>
+                            {% endif %}
+                            {% if result.price %}
+                                <p class="price">price : {{result.price}}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="address">
+                            {% if result.location %}
+                                {% for address in result.location.display_address%}
+                                    <p>{{address}}</p>
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                    </li>
+                <hr>
+                {% endif %}
+            {% endfor %}
+            <!--<li class="oneDisplay">-->
+                <!--<div class="image">-->
+                    <!--<a href="https://www.yelp.com/biz/mendocino-farms-marina-del-rey?adjust_creative=vsNBrEgOzq8GT4apbrq3Rg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=vsNBrEgOzq8GT4apbrq3Rg">-->
+                        <!--<img class="small" src="https://s3-media1.fl.yelpcdn.com/bphoto/vklnRnqw8eXETIDOC-BJdQ/o.jpg">-->
+                    <!--</a>-->
+
+                <!--</div>-->
+                <!--<div class="info">-->
+                    <!--<p>Mendocino Farms</p>-->
+                    <!--<p>Mendocino Farms</p>-->
+                    <!--<p>Mendocino Farms</p>-->
+                <!--</div>-->
+
+            <!--</li>-->
+        </ul>
+    </div>
+
+
+</body>
+</html>

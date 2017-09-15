@@ -23,7 +23,7 @@ try:
     from urllib.parse import urlencode
 except ImportError:
     # Fall back to Python 2's urllib2 and urllib
-    from urllib2 import HTTPError
+    from urllib import HTTPError
     from urllib import quote
     from urllib import urlencode
     
@@ -44,9 +44,9 @@ TOKEN_PATH = '/oauth2/token'
 GRANT_TYPE = 'client_credentials'
 
 # Defaults for our simple example.
-DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
-SEARCH_LIMIT = 3
+DEFAULT_TERM = ''
+DEFAULT_LOCATION = ''
+SEARCH_LIMIT = 20
 
 
 def obtain_bearer_token(host, path):
@@ -146,19 +146,25 @@ def query_api(term, location):
         print(u'No businesses for {0} in {1} found.'.format(term, location))
         return
 
-    business_id = businesses[0]['id']
+    # business_id = businesses[0]['id']
+    # print(u'{0} businesses found, querying business info ' \
+    #     'for the top result "{1}" ...'.format(
+    #         len(businesses), business_id))
+    global result
+    result = []
+    for i in range(len(businesses)):
+        business_id = businesses[i]['id']
+        response = get_business(bearer_token, business_id)
+        result.append(response)
 
-    print(u'{0} businesses found, querying business info ' \
-        'for the top result "{1}" ...'.format(
-            len(businesses), business_id))
-    response = get_business(bearer_token, business_id)
+    # response = get_business(bearer_token, business_id)
 
-    print(u'Result for business "{0}" found:'.format(business_id))
-    pprint.pprint(response, indent=2)
-    global responseGlobal
-    responseGlobal = response
-    global test
-    test = "test"
+    # print(u'Result for business "{0}" found:'.format(business_id))
+    # pprint.pprint(response, indent=2)
+    # global responseGlobal
+    # responseGlobal = response
+    # global test
+    # test = "test"
 
 
 def main():
@@ -196,7 +202,18 @@ def get_index_page():
 #     output.append({'date' : s['date']})
 #   return jsonify({'result' : output})
   return render_template('index.html')
-    
+
+
+@app.route('/index', methods=['GET'])
+def get_redirect_index_page():
+#   star = mongo.db.test
+#   output = []
+#   for s in star.find():
+#     output.append({'date' : s['date']})
+#   return jsonify({'result' : output})
+  return render_template('index.html')
+
+
 @app.route('/location', methods=['POST'])
 def get_yelp_results():
     userLocation = request.form['userLocation']
@@ -213,7 +230,7 @@ def get_yelp_results():
 
     try:
         query_api(input_values.term, input_values.location)
-        
+
     except HTTPError as error:
         sys.exit(
             'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
@@ -222,9 +239,12 @@ def get_yelp_results():
                 error.read(),
             )
         )
-    return test
+
+    # return render_template('search.html')
+    return render_template('search.html', location=userLocation, searchResults = result)
+
     
 
 if __name__ == '__main__':
     #main()
-    app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)), debug='True')
+    app.run(host=os.getenv('IP', '127.0.0.1'),port=int(os.getenv('PORT', 8080)), debug='True')
