@@ -46,7 +46,8 @@ GRANT_TYPE = 'client_credentials'
 # Defaults for our simple example.
 DEFAULT_TERM = ''
 DEFAULT_LOCATION = ''
-SEARCH_LIMIT = 20
+SEARCH_LIMIT = 10
+OFFSET = 0
 
 
 def obtain_bearer_token(host, path):
@@ -113,7 +114,8 @@ def search(bearer_token, term, location):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
-        'limit': SEARCH_LIMIT
+        'limit': SEARCH_LIMIT,
+        'offset': OFFSET
     }
     return request2(API_HOST, SEARCH_PATH, bearer_token, url_params=url_params)
 
